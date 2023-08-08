@@ -11,7 +11,7 @@ import CustomText from '../../../components/CustomText';
 import { FlexColumn } from "../../../components/FlexColumn";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Pressable, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useTheme } from "../../../providers/ThemeProvider";
 import MapView from 'react-native-maps';
 import { Marker } from "react-native-maps";
@@ -24,7 +24,8 @@ export default function AddBranch({ navigation }) {
 
     const [cities, setCities] = useState([]);
 
-    const [address, setAddress] = useState('');
+    const [street, setStreet] = useState('');
+    const [house, setHouse] = useState('');
     const [branch_phone, setBranchPhone] = useState('');
     const [branch_phone_additional, setBranchPhoneAdditional] = useState('');
 
@@ -52,7 +53,7 @@ export default function AddBranch({ navigation }) {
                 5000
             );
         }
-        getCityByCoordinates(coordinates.latitude, coordinates.longitude);
+        //getCityByCoordinates(coordinates.latitude, coordinates.longitude);
     }
 
     const getCities = async () => {
@@ -94,8 +95,8 @@ export default function AddBranch({ navigation }) {
                     setLocation({
                         latitude: parseFloat(response.data.city.latitude),
                         longitude: parseFloat(response.data.city.longitude),
-                        latitudeDelta: 0.02,
-                        longitudeDelta: 0.02,
+                        latitudeDelta: 0.01,
+                        longitudeDelta: 0.01,
                     });
                     if (map.current) {
                         map.current.animateCamera(
@@ -125,8 +126,8 @@ export default function AddBranch({ navigation }) {
             setLocation({
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
             });
             if (map.current) {
                 map.current.animateCamera(
@@ -147,7 +148,7 @@ export default function AddBranch({ navigation }) {
     const registrationSubmit = async () => {
         setLoader(true);
         const form_data = new FormData();
-        form_data.append('address', address);
+        form_data.append('street', street);
         form_data.append('phone', phone);
         form_data.append('city', city);
 
@@ -186,47 +187,47 @@ export default function AddBranch({ navigation }) {
                 {
                     <ScrollView style={{ width: '100%' }}>
                         <FlexColumn gap={20} paddingVertical={15}>
-                            <SelectModal data={cities} modal_label={t('user.city')} header_title={t('user.choose_a_city')} label_error={error.city} select_value={city} setSelectValue={setCity} placeholder={city_name} setPlaceholder={setCityName} setCoordinates={getCoordinatesByCity} icon={'business-outline'} />
-                            <CustomInput input_label={t('misc.address')} input_value={address} setInputValue={setAddress} label_error={error.address} icon={'location-outline'}></CustomInput>
-                            <View style={{ width: '100%', overflow: 'hidden', borderRadius: 10, position: 'relative', borderWidth: 1, borderColor: colors.border }}>
-                                {myLocation === true &&
-                                
-                                    <Pressable onPress={() => setMyLocation(false)} style={{
-                                        flex: 1,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        backgroundColor: '#00000099',
-                                        zIndex: 1
-                                    }}>
-                                        <CustomText color={'#fff'}></CustomText>
-                                    </Pressable>}
+                            {location &&
+                                <View style={{ width: '100%', overflow: 'hidden', borderRadius: 10, position: 'relative', borderWidth: 1, borderColor: colors.border }}>
+                                    {myLocation &&
+                                        <View style={{
+                                            flex: 1,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            padding: 10,
+                                            backgroundColor: '#00000099',
+                                            zIndex: 1
+                                        }}>
+                                            <CustomText marginBottom={10} textAlign={'center'} fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{t('branches.attention_1')}</CustomText>
+                                            <CustomButton onPressHandle={() => setMyLocation(false)}>
+                                                <CustomText fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{t('misc.accepted')}</CustomText>
+                                            </CustomButton>
+                                        </View>}
 
-                                {location &&
+
                                     <MapView
                                         ref={map}
                                         onPress={(e) => changeLocation(e.nativeEvent.coordinate)}
                                         initialRegion={location}
                                         style={{ width: '100%', height: 300 }}
+                                        userInterfaceStyle="light"
                                     >
-                                        <Marker draggable={true} coordinate={location} pinColor={colors.primary} />
+                                        <Marker draggable onDragEnd={(e) => changeLocation(e.nativeEvent.coordinate)} coordinate={location} pinColor={colors.primary} />
                                     </MapView>
-                                }
-                            </View>
-
-
-                            <CustomText>{location?.latitude}</CustomText>
-                            <CustomText>{location?.longitude}</CustomText>
-
+                                </View>
+                            }
+                            <SelectModal data={cities} modal_label={t('user.city')} header_title={t('user.choose_a_city')} label_error={error.city} select_value={city} setSelectValue={setCity} placeholder={city_name} setPlaceholder={setCityName} setCoordinates={getCoordinatesByCity} icon={'business-outline'} />
+                            <CustomInput input_label={t('misc.street')} input_value={street} setInputValue={setStreet} label_error={error.street} icon={'trail-sign-outline'}></CustomInput>
+                            <CustomInput input_label={t('misc.house')} input_value={house} setInputValue={setHouse} label_error={error.house} icon={'business-outline'}></CustomInput>
                             <CustomInput input_label={t('auth.phone')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={branch_phone} setInputValue={setBranchPhone} label_error={error.branch_phone} icon={'call-outline'}></CustomInput>
                             <CustomInput input_label={t('auth.phone_additional')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={branch_phone_additional} setInputValue={setBranchPhoneAdditional} label_error={error.branch_phone_additional} icon={'call-outline'}></CustomInput>
 
-
-                            <CustomButton width={'100%'} onPressHandle={() => registrationSubmit()}>
+                            <CustomButton width={'100%'} onPressHandle={() => addBranch()}>
                                 <Ionicons name='checkbox-outline' size={24} color={'#fff'} />
                                 <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[500]}>{t('partners.submit_application')}</CustomText>
                             </CustomButton>

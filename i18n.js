@@ -15,20 +15,26 @@ i18n.init({
                     home_title: 'Главная',
                     to_main_page: 'На главную'
                 },
+
                 dashboard: {
                     title: 'Мой личный кабинет'
                 },
+
                 misc: {
                     yes: 'Да',
                     no: 'Нет',
+                    accepted: 'Принято',
                     all: 'Все',
                     continue: 'Продолжить',
                     created_at: 'Дата и время создания',
                     for_business: 'Для бизнеса',
                     applications: 'Заявки',
                     no_applications: 'Здесь пока нет заявок',
-                    address: 'Адрес'
+                    address: 'Адрес',
+                    street: 'Улица',
+                    house: '№ здания, дома'
                 },
+
                 auth: {
                     account_settings: 'Настройки аккаунта',
                     sign_in_title: 'Вход в личный кабинет',
@@ -52,6 +58,7 @@ i18n.init({
                     sms_code: 'SMS код',
                     enter_the_sms_code: 'На номер {{phone}} был отправлен SMS с 4-х значным кодом подтверждения. Введите его в поле ниже:'
                 },
+
                 user: {
                     first_name: 'Имя',
                     last_name: 'Фамилия',
@@ -62,6 +69,7 @@ i18n.init({
                     current_mode: 'Текущий режим',
                     user_info: 'Информация о пользователе'
                 },
+
                 settings: {
                     settings_title: 'Настройки приложения',
                     app_language: 'Язык приложения',
@@ -71,10 +79,12 @@ i18n.init({
                         dark: 'Темная'
                     }
                 },
+
                 errors: {
                     network_error: 'Ошибка соединения с сервером. Проверьте подключение к интернету',
                     not_logged_in: 'Вы не авторизованы'
                 },
+
                 scanner: {
                     title: 'Сканер QR кода',
                     scan_the_qr_code: 'Сканируйте QR-код',
@@ -82,6 +92,7 @@ i18n.init({
                     requesting_permission: 'Идет запрос для получения доступа к камере.',
                     no_access_to_camera: 'Нет доступа к камере. Для продолжения вы должны предоставить доступ к камере через настройки вашего устройства в разделе "Приложения".'
                 },
+
                 bonuses: 'Бонусы',
                 bonus: 'Бонус',
 
@@ -114,26 +125,32 @@ i18n.init({
                     accept_application: 'Принять заявку',
                     accept_application_confirm: 'Вы дейтствительно хотите принять данную заявку?'
                 },
+
                 managers: {
                     title: 'Менеджеры',
                     application: 'Заявка на должность менеджера',
                     become_a_manager: 'Стать менеджером',
                     no_managers: 'Здесь пока нет менеджеров',
                 },
+
                 organizations: {
                     title: 'Организации',
                     my_organizations: 'Мои организации',
                     organization_info: 'Информация об организации'
                 },
+
                 branches: {
                     title: 'Филиалы',
                     organization_branches: 'Филиалы организации',
                     no_branches: 'Нет добавленных филиалов',
-                    add_a_branch: 'Добавить филиал'
+                    add_a_branch: 'Добавить филиал',
+                    attention_1: 'Местоположение Вашего филиала автоматически была определена Вашим текущим местоположением. Чтобы изменить его, перетащите маркер на необходимое место либо кликните по необходимому месту на карте'
                 },
+
                 staff: {
                     title: 'Персонал'
                 },
+
                 services: {
                     title: 'Услуги'
                 }
@@ -151,13 +168,16 @@ i18n.init({
                 misc: {
                     yes: 'Иә',
                     no: 'Жоқ',
+                    accepted: 'Түсінікті',
                     all: 'Барлығы',
                     continue: 'Жалғастыру',
                     created_at: 'Тіркелген уақыты',
                     for_business: 'Бизнеске',
                     applications: 'Өтінімдер',
                     no_applications: 'Мында әзірше өтінімдер жоқ',
-                    address: 'Мекен-жайы'
+                    address: 'Мекен-жайы',
+                    street: 'Көше',
+                    house: 'Үй, ғимарат нөмірі'
                 },
                 auth: {
                     account_settings: 'Аккаунттың баптамалары',
@@ -182,6 +202,7 @@ i18n.init({
                     sms_code: 'SMS код',
                     enter_the_sms_code: '{{phone}} нөміріне 4 санды растау коды бар SMS жібердік. Оны төмендегі жолаққа енгізіңіз:'
                 },
+
                 user: {
                     first_name: 'Аты',
                     last_name: 'Тегі',
@@ -192,6 +213,7 @@ i18n.init({
                     current_mode: 'Ағымдағы режим',
                     user_info: 'Қолданушы туралы деректер'
                 },
+
                 settings: {
                     settings_title: 'Қосымшаның баптаулары',
                     app_language: 'Қосымшаның тілі',
@@ -201,10 +223,12 @@ i18n.init({
                         dark: 'Қараңғы'
                     }
                 },
+
                 errors: {
                     network_error: 'Серверге қосылу қатесі. Интернет байланысын тексеріңіз',
                     not_logged_in: 'Сіз авторизация өткен жоқсыз'
                 },
+
                 scanner: {
                     title: 'QR код сканері',
                     scan_the_qr_code: 'QR-кодты сканерлеңіз',
@@ -212,8 +236,10 @@ i18n.init({
                     requesting_permission: 'Камераны қосуға қолжетімділік сұралуда.',
                     no_access_to_camera: 'Камераны қосу қолжетімсіз. Жалғастыру үшін сіз құрылғыңыздың баптауларындағы "Қосымшалар" бөлімі арқылы камераға кіруге рұқсат беруіңіз керек.'
                 },
+
                 bonuses: 'Бонустар',
                 bonus: 'Бонус',
+
                 categories: {
                     title: 'Санаттар',
                     services: 'Қызметтер',
@@ -243,26 +269,32 @@ i18n.init({
                     accept_application: 'Өтінімді қабылдау',
                     accept_application_confirm: 'Сіз расыменде осы өтінімді қабылдағыңыз келеді ме?'
                 },
+
                 managers: {
                     title: 'Менеджерлер',
                     application: 'Менеджер болуға өтінім',
                     become_a_manager: 'Менеджер болу',
                     no_managers: 'Мында әзірше менеджерлер жоқ',
                 },
+
                 organizations: {
                     title: 'Ұйымдар',
                     my_organizations: 'Менің ұйымдарым',
                     organization_info: 'Ұйым туралы деректер',
                 },
+
                 branches: {
                     title: 'Бөлімшелер',
                     organization_branches: 'Ұйымның бөлімшелері',
                     no_branches: 'Қосылған бөлімшелер жоқ',
-                    add_a_branch: 'Бөлімше қосу'
+                    add_a_branch: 'Бөлімше қосу',
+                    attention_1: 'Сіздің бөлімшеңіздің орналасқан жері автоматты түрде сіздің орналасқан жеріңізбен анықталды. Оны өзгерту үшін маркерді қажетті жерге сүйреңіз немесе картадағы қажетті орынды басыңыз'
                 },
+
                 staff: {
                     title: 'Қызметкерлер'
                 },
+
                 services: {
                     title: 'Қызметтер'
                 }

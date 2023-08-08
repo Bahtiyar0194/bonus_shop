@@ -38,6 +38,12 @@ export const CustomInput = ({ input_label, input_type, input_mode, input_value, 
             position: 'absolute',
             top: 12,
             right: 10
+        },
+
+        chevron: {
+            position: 'absolute',
+            top: 16,
+            right: 10
         }
     });
 
@@ -124,6 +130,12 @@ export const CustomInput = ({ input_label, input_type, input_mode, input_value, 
                             <Ionicons name='eye-off-outline' size={24} color={colors.text} />
                     }
                 </Pressable>
+            }
+
+            {input_type === 'select' &&
+                <View style={styles.chevron}>
+                    <Ionicons name='chevron-down-outline' size={18} color={colors.text} />
+                </View>
             }
         </View>
     )
