@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from 'react';
-import { Loader } from '../../components/Loader';
+import { Loader } from "../../components/Loader";
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { CustomInput } from '../../components/CustomInput';
 import { CustomButton } from '../../components/CustomButton';
-import { SelectModal } from "../../components/SelectModal";
 import axios from 'axios';
 import stylesConfig from '../../config/styles';
 import CustomText from '../../components/CustomText';
@@ -104,7 +103,7 @@ export default function RegisterPartner({ navigation }) {
                                 <CustomInput input_label={t('partners.bin')} input_mode={'numeric'} input_value={partner_bin} setInputValue={setPartnerBin} label_error={error.partner_bin} maxLength={12} icon={'briefcase-outline'}></CustomInput>
                                 <CustomInput input_label={t('user.email')} input_value={partner_email} setInputValue={setPartnerEmail} label_error={error.partner_email} icon={'mail-outline'}></CustomInput>
                                 <CustomInput input_label={t('auth.phone')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={partner_phone} setInputValue={setPartnerPhone} label_error={error.partner_phone} icon={'call-outline'}></CustomInput>
-                                <SelectModal data={cities} modal_label={t('user.city')} header_title={t('user.choose_a_city')} label_error={error.city} select_value={city} setSelectValue={setCity} placeholder={city_name} setPlaceholder={setCityName} icon={'business-outline'} />
+                                <CustomInput input_label={t('user.city')} input_type={'select'} label_error={error.city} placeholder={city_name} icon={'business-outline'} modal_title={t('user.choose_a_city')} data={cities} select_value={city} setSelectValue={setCity} setPlaceholder={setCityName} />
                                 <CustomButton width={'100%'} onPressHandle={() => registrationSubmit()}>
                                     <Ionicons name='checkbox-outline' size={24} color={'#fff'} />
                                     <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[500]}>{t('partners.submit_application')}</CustomText>

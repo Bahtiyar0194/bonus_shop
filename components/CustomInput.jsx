@@ -1,14 +1,42 @@
-import { StyleSheet, View, TextInput, Pressable } from 'react-native';
+import { StyleSheet, View, TextInput, Pressable, TouchableOpacity, SectionList } from 'react-native';
 import stylesConfig from '../config/styles';
 import { TextInputMask } from 'react-native-masked-text';
 import { useState } from 'react';
 import { useTheme } from '../providers/ThemeProvider';
 import CustomText from './CustomText';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { CustomModal } from './CustomModal';
 
-export const CustomInput = ({ input_label, input_type, input_mode, input_value, placeholder, setInputValue, label_error, icon, maxLength }) => {
+export const CustomInput = ({
+    input_label,
+    input_type,
+    input_mode,
+    input_value,
+    placeholder,
+    setInputValue,
+    label_error,
+    icon,
+    maxLength,
+    modal_title,
+    data,
+    select_value,
+    setSelectValue,
+    setPlaceholder,
+    setCoordinates
+}) => {
     const { colors } = useTheme();
-    const [is_visible, setIsVisible] = useState(false);
+    const [password_is_visible, setPasswordIsVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const changeSelectValue = (select_value, placeholder_value) => {
+        setSelectValue(select_value);
+        setPlaceholder(placeholder_value);
+
+        if (setCoordinates) {
+            setCoordinates(select_value);
+        }
+        setModalVisible(false);
+    }
 
     const styles = StyleSheet.create({
         inputWrap: {
@@ -44,6 +72,12 @@ export const CustomInput = ({ input_label, input_type, input_mode, input_value, 
             position: 'absolute',
             top: 16,
             right: 10
+        },
+
+        sectionItem: {
+            paddingVertical: 15,
+            borderBottomWidth: 1,
+            borderColor: colors.border
         }
     });
 
@@ -99,19 +133,25 @@ export const CustomInput = ({ input_label, input_type, input_mode, input_value, 
                             onChangeText={e => setInputValue(e)}
                             defaultValue={input_value}
                             cursorColor={colors.primary}
-                            secureTextEntry={!is_visible}
+                            secureTextEntry={!password_is_visible}
                         />
                         :
-                        <TextInput
-                            style={styles.selfInput}
-                            inputMode={input_mode}
-                            placeholder={placeholder}
-                            placeholderTextColor={colors.secondary}
-                            onChangeText={e => setInputValue(e)}
-                            defaultValue={input_value}
-                            cursorColor={colors.primary}
-                            maxLength={maxLength}
-                        />
+                        input_type === 'select'
+                            ?
+                            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.selfInput}>
+                                <CustomText paddingVertical={5} fontFamily={stylesConfig.fontFamily[500]} color={colors.secondary}>{placeholder}</CustomText>
+                            </TouchableOpacity>
+                            :
+                            <TextInput
+                                style={styles.selfInput}
+                                inputMode={input_mode}
+                                placeholder={placeholder}
+                                placeholderTextColor={colors.secondary}
+                                onChangeText={e => setInputValue(e)}
+                                defaultValue={input_value}
+                                cursorColor={colors.primary}
+                                maxLength={maxLength}
+                            />
             }
 
             {icon &&
@@ -121,9 +161,9 @@ export const CustomInput = ({ input_label, input_type, input_mode, input_value, 
             }
 
             {input_type === 'password' &&
-                <Pressable style={styles.eye} onPress={() => setIsVisible(!is_visible)}>
+                <Pressable style={styles.eye} onPress={() => setPasswordIsVisible(!password_is_visible)}>
                     {
-                        is_visible
+                        password_is_visible
                             ?
                             <Ionicons name='eye-outline' size={24} color={colors.text} />
                             :
@@ -133,9 +173,27 @@ export const CustomInput = ({ input_label, input_type, input_mode, input_value, 
             }
 
             {input_type === 'select' &&
-                <View style={styles.chevron}>
-                    <Ionicons name='chevron-down-outline' size={18} color={colors.text} />
-                </View>
+                <>
+                    <View style={styles.chevron}>
+                        <Ionicons name='chevron-down-outline' size={18} color={colors.text} />
+                    </View>
+                    <CustomModal show={modalVisible} hide={() => setModalVisible(false)} modal_title={modal_title}>
+                        <SectionList
+                            sections={data}
+                            keyExtractor={(item, index) => item + index}
+                            renderSectionHeader={({ section: { title } }) => (
+                                <View style={styles.sectionItem}>
+                                    <CustomText fontFamily={stylesConfig.fontFamily[700]}>{title}</CustomText>
+                                </View>
+                            )}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity activeOpacity={.4} onPress={() => changeSelectValue(item.id, item.name)} style={styles.sectionItem}>
+                                    <CustomText color={select_value == item.id ? colors.primary : colors.text} fontFamily={select_value == item.id && stylesConfig.fontFamily[500]}>{item.name}</CustomText>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    </CustomModal>
+                </>
             }
         </View>
     )

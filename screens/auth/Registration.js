@@ -4,7 +4,6 @@ import { Loader } from '../../components/Loader';
 import DefaultLayout from "../../layouts/DefaultLayout";
 import { CustomInput } from '../../components/CustomInput';
 import { CustomButton } from '../../components/CustomButton';
-import { SelectModal } from "../../components/SelectModal";
 import axios from 'axios';
 import stylesConfig from '../../config/styles';
 import CustomText from '../../components/CustomText';
@@ -90,7 +89,7 @@ export default function Registration({ navigation }) {
                     <CustomInput input_label={t('user.last_name')} input_value={last_name} setInputValue={setLastName} label_error={error.last_name} icon={'person-outline'}></CustomInput>
                     <CustomInput input_label={t('user.iin')} input_mode={'numeric'} input_value={iin} setInputValue={setIin} label_error={error.iin} maxLength={12} icon={'person-outline'}></CustomInput>
                     <CustomInput input_label={t('user.email')} input_value={email} setInputValue={setEmail} label_error={error.email} icon={'mail-outline'}></CustomInput>
-                    <SelectModal data={cities} modal_label={t('user.city')} header_title={t('user.choose_a_city')} label_error={error.city} select_value={city} setSelectValue={setCity} placeholder={city_name} setPlaceholder={setCityName} icon={'business-outline'} />
+                    <CustomInput input_label={t('user.city')} input_type={'select'} label_error={error.city} placeholder={city_name} icon={'business-outline'} modal_title={t('user.choose_a_city')} data={cities} select_value={city} setSelectValue={setCity} setPlaceholder={setCityName} />
                     <CustomButton width={'100%'} onPressHandle={() => registrationSubmit()}>
                         <Ionicons name='checkbox-outline' size={24} color={'#fff'} />
                         <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[500]}>{t('auth.sign_up_finish')}</CustomText>

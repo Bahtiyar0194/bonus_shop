@@ -4,7 +4,6 @@ import { Loader } from "../../../components/Loader";
 import DefaultLayout from "../../../layouts/DefaultLayout";
 import { CustomInput } from '../../../components/CustomInput';
 import { CustomButton } from '../../../components/CustomButton';
-import { SelectModal } from "../../../components/SelectModal";
 import axios from 'axios';
 import stylesConfig from '../../../config/styles';
 import CustomText from '../../../components/CustomText';
@@ -39,6 +38,7 @@ export default function AddBranch({ navigation }) {
 
     const [location, setLocation] = useState(null);
     const [myLocation, setMyLocation] = useState(false);
+    const [specifyLocation, setSpecifyLocation] = useState(false);
 
     const changeLocation = async (coordinates) => {
         setLocation(coordinates);
@@ -92,6 +92,8 @@ export default function AddBranch({ navigation }) {
         await axios.post('/cities/find_coordinates_by_city/' + city_id)
             .then(response => {
                 if (response.data.city) {
+                    setMyLocation(false);
+                    setSpecifyLocation(true);
                     setLocation({
                         latitude: parseFloat(response.data.city.latitude),
                         longitude: parseFloat(response.data.city.longitude),
@@ -189,7 +191,7 @@ export default function AddBranch({ navigation }) {
                         <FlexColumn gap={20} paddingVertical={15}>
                             {location &&
                                 <View style={{ width: '100%', overflow: 'hidden', borderRadius: 10, position: 'relative', borderWidth: 1, borderColor: colors.border }}>
-                                    {myLocation &&
+                                    {(myLocation || specifyLocation) &&
                                         <View style={{
                                             flex: 1,
                                             justifyContent: 'center',
@@ -203,8 +205,8 @@ export default function AddBranch({ navigation }) {
                                             backgroundColor: '#00000099',
                                             zIndex: 1
                                         }}>
-                                            <CustomText marginBottom={10} textAlign={'center'} fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{t('branches.attention_1')}</CustomText>
-                                            <CustomButton onPressHandle={() => setMyLocation(false)}>
+                                            <CustomText marginBottom={10} textAlign={'center'} fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{ myLocation === true ? t('branches.attention_1') : t('branches.attention_2', {city: city_name})}</CustomText>
+                                            <CustomButton onPressHandle={() => myLocation === true ? setMyLocation(false) : setSpecifyLocation(false)}>
                                                 <CustomText fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{t('misc.accepted')}</CustomText>
                                             </CustomButton>
                                         </View>}
@@ -221,7 +223,8 @@ export default function AddBranch({ navigation }) {
                                     </MapView>
                                 </View>
                             }
-                            <SelectModal data={cities} modal_label={t('user.city')} header_title={t('user.choose_a_city')} label_error={error.city} select_value={city} setSelectValue={setCity} placeholder={city_name} setPlaceholder={setCityName} setCoordinates={getCoordinatesByCity} icon={'business-outline'} />
+
+                            <CustomInput input_label={t('user.city')} input_type={'select'} label_error={error.city} placeholder={city_name} icon={'business-outline'} modal_title={t('user.choose_a_city')} data={cities} select_value={city} setSelectValue={setCity} setPlaceholder={setCityName} setCoordinates={getCoordinatesByCity} />
                             <CustomInput input_label={t('misc.street')} input_value={street} setInputValue={setStreet} label_error={error.street} icon={'trail-sign-outline'}></CustomInput>
                             <CustomInput input_label={t('misc.house')} input_value={house} setInputValue={setHouse} label_error={error.house} icon={'business-outline'}></CustomInput>
                             <CustomInput input_label={t('auth.phone')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={branch_phone} setInputValue={setBranchPhone} label_error={error.branch_phone} icon={'call-outline'}></CustomInput>

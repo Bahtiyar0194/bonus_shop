@@ -22,6 +22,7 @@ export const CustomModal = ({ show, hide, modal_title, children }) => {
         modal: {
             position: 'relative',
             width: '100%',
+            height: '90%',
             borderWidth: 1,
             borderColor: colors.border,
             borderRadius: 10,
@@ -46,7 +47,7 @@ export const CustomModal = ({ show, hide, modal_title, children }) => {
                         <FlexWrap justifyContent={'space-between'}>
                             <CustomText size={stylesConfig.fontSize.text_lg} fontFamily={stylesConfig.fontFamily[700]}>{modal_title}</CustomText>
                             <Pressable onPress={() => hide()}>
-                                <Ionicons name='close-outline' size={24} color={colors.text} />
+                                <Ionicons name='close-outline' size={28} color={colors.text} />
                             </Pressable>
                         </FlexWrap>
                     </View>
