@@ -32,7 +32,8 @@ i18n.init({
                     no_applications: 'Здесь пока нет заявок',
                     address: 'Адрес',
                     street: 'Улица',
-                    house: '№ здания, дома'
+                    house: '№ здания, дома',
+                    work_regulations: 'Регламент работы'
                 },
 
                 auth: {
@@ -178,7 +179,8 @@ i18n.init({
                     no_applications: 'Мында әзірше өтінімдер жоқ',
                     address: 'Мекен-жайы',
                     street: 'Көше',
-                    house: 'Үй, ғимарат нөмірі'
+                    house: 'Үй, ғимарат нөмірі',
+                    work_regulations: 'Жұмыс тәртібі'
                 },
                 auth: {
                     account_settings: 'Аккаунттың баптамалары',

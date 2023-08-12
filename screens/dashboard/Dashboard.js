@@ -145,17 +145,28 @@ export default function Dashboard({ navigation }) {
                         <RoleProvider roles={[3]}>
                             <View style={{ width: '100%' }}>
                                 <CustomText fontFamily={stylesConfig.fontFamily[700]}>{t('partners_and_managers')}</CustomText>
-                                <ListItem text={t('partners.title')} badge={partner_applications.length} onPressHandler={() => navigation.navigate('PartnersList')}></ListItem>
-                                <ListItem text={t('managers.title')} badge={manager_applications.length} onPressHandler={() => navigation.navigate('ManagersList')}></ListItem>
+
+                                <ListItem chevron={true} badge={partner_applications.length} onPressHandler={() => navigation.navigate('PartnersList')}>
+                                    <CustomText>{t('partners.title')}</CustomText>
+                                </ListItem>
+                                <ListItem chevron={true} badge={manager_applications.length} onPressHandler={() => navigation.navigate('ManagersList')}>
+                                    <CustomText>{t('managers.title')}</CustomText>
+                                </ListItem>
                             </View>
                         </RoleProvider>
 
                         <RoleProvider roles={[4]}>
                             <View style={{ width: '100%' }}>
                                 <CustomText fontFamily={stylesConfig.fontFamily[700]}>{t('organizations_branches_staff')}</CustomText>
-                                <ListItem text={t('organizations.title')} onPressHandler={() => navigation.navigate('OrganizationsList')}></ListItem>
-                                <ListItem text={t('branches.title')} badge={manager_applications.length} onPressHandler={() => navigation.navigate('BranchesList')}></ListItem>
-                                <ListItem text={t('staff.title')} badge={manager_applications.length} onPressHandler={() => navigation.navigate('ManagersList')}></ListItem>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('OrganizationsList')}>
+                                    <CustomText>{t('organizations.title')}</CustomText>
+                                </ListItem>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('BranchesList')}>
+                                    <CustomText>{t('branches.title')}</CustomText>
+                                </ListItem>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('ManagersList')}>
+                                    <CustomText>{t('staff.title')}</CustomText>
+                                </ListItem>
                             </View>
                         </RoleProvider>
 

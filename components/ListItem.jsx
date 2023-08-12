@@ -20,12 +20,14 @@ export const ListItem = (props) => {
     return (
         <TouchableOpacity activeOpacity={.4} style={styles.listItem} onPress={props.onPressHandler}>
             <FlexWrap justifyContent={'space-between'}>
-                <CustomText color={props.color || colors.text}>{props.text}</CustomText>
+                {props.children}
                 <FlexWrap>
                     {props.badge > 0 &&
                         <Badge badge={props.badge} />
                     }
-                    <Ionicons name='chevron-forward-outline' size={18} color={colors.secondary} />
+                    {props.chevron === true &&
+                        <Ionicons name='chevron-forward-outline' size={18} color={colors.secondary} />
+                    }
                 </FlexWrap>
             </FlexWrap>
         </TouchableOpacity>

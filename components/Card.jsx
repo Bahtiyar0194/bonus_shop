@@ -7,7 +7,7 @@ export const Card = (props) => {
 
     return (
         <View style={{
-            padding: 12,
+            padding: 15,
             marginBottom: props.marginBottom,
             backgroundColor: props.backgroundColor || colors.active,
             borderRadius: 10,

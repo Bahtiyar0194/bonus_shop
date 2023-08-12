@@ -39,7 +39,7 @@ export default function Navigation() {
             height: '100%',
             width: '100%',
             backgroundColor: colors.inactive,
-            padding: 10
+            padding: 15
         }
     });
 

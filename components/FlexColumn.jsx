@@ -4,7 +4,7 @@ export const FlexColumn = (props) => {
     return (
         <View style={{
             flex: props.flex || 0,
-            flexDirection: 'row',
+            flexDirection: props.flexDirection || 'row',
             flexWrap: 'wrap',
             width: props.width || '100%',
             alignItems: props.alignItems || 'center',

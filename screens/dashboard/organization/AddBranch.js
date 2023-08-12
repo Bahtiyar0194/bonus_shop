@@ -8,6 +8,8 @@ import axios from 'axios';
 import stylesConfig from '../../../config/styles';
 import CustomText from '../../../components/CustomText';
 import { FlexColumn } from "../../../components/FlexColumn";
+import { FlexWrap } from "../../../components/FlexWrap";
+import { ListItem } from "../../../components/ListItem";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView, View } from "react-native";
@@ -15,6 +17,8 @@ import { useTheme } from "../../../providers/ThemeProvider";
 import MapView from 'react-native-maps';
 import { Marker } from "react-native-maps";
 import * as Location from 'expo-location';
+import { Card } from "../../../components/Card";
+import CustomTimePicker from "../../../components/CustomTimePicker";
 
 
 export default function AddBranch({ navigation }) {
@@ -22,6 +26,7 @@ export default function AddBranch({ navigation }) {
     const { colors } = useTheme();
 
     const [cities, setCities] = useState([]);
+    const [week_days, setWeekDays] = useState([]);
 
     const [street, setStreet] = useState('');
     const [house, setHouse] = useState('');
@@ -62,6 +67,19 @@ export default function AddBranch({ navigation }) {
         await axios.get('/cities/get')
             .then(response => {
                 setCities(response.data.cities);
+            }).catch(err => {
+                alert(t('errors.network_error'));
+            }).finally(() => {
+                setLoader(false);
+            });
+    }
+
+    const getWeekDays = async () => {
+        setLoader(true);
+
+        await axios.get('/days/get_days_of_week')
+            .then(response => {
+                setWeekDays(response.data.week_days);
             }).catch(err => {
                 alert(t('errors.network_error'));
             }).finally(() => {
@@ -177,6 +195,7 @@ export default function AddBranch({ navigation }) {
 
     useEffect(() => {
         getCities();
+        getWeekDays();
         getMyLocation();
     }, []);
 
@@ -205,7 +224,7 @@ export default function AddBranch({ navigation }) {
                                             backgroundColor: '#00000099',
                                             zIndex: 1
                                         }}>
-                                            <CustomText marginBottom={10} textAlign={'center'} fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{ myLocation === true ? t('branches.attention_1') : t('branches.attention_2', {city: city_name})}</CustomText>
+                                            <CustomText marginBottom={10} textAlign={'center'} fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{myLocation === true ? t('branches.attention_1') : t('branches.attention_2', { city: city_name })}</CustomText>
                                             <CustomButton onPressHandle={() => myLocation === true ? setMyLocation(false) : setSpecifyLocation(false)}>
                                                 <CustomText fontFamily={stylesConfig.fontFamily[500]} color={'#fff'}>{t('misc.accepted')}</CustomText>
                                             </CustomButton>
@@ -229,6 +248,21 @@ export default function AddBranch({ navigation }) {
                             <CustomInput input_label={t('misc.house')} input_value={house} setInputValue={setHouse} label_error={error.house} icon={'business-outline'}></CustomInput>
                             <CustomInput input_label={t('auth.phone')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={branch_phone} setInputValue={setBranchPhone} label_error={error.branch_phone} icon={'call-outline'}></CustomInput>
                             <CustomInput input_label={t('auth.phone_additional')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={branch_phone_additional} setInputValue={setBranchPhoneAdditional} label_error={error.branch_phone_additional} icon={'call-outline'}></CustomInput>
+
+                            <Card>
+                                <CustomText fontFamily={stylesConfig.fontFamily[700]}>{t('misc.work_regulations')}</CustomText>
+                                {week_days.map(item => (
+                                    <ListItem key={item.week_day_id}>
+                                        <FlexColumn flex={1}>
+                                            <CustomText fontFamily={stylesConfig.fontFamily[500]}>{item.week_day_name}</CustomText>
+                                            <FlexWrap>
+                                            <CustomTimePicker />
+                                            <CustomTimePicker />
+                                            </FlexWrap>
+                                        </FlexColumn>
+                                    </ListItem>
+                                ))}
+                            </Card>
 
                             <CustomButton width={'100%'} onPressHandle={() => addBranch()}>
                                 <Ionicons name='checkbox-outline' size={24} color={'#fff'} />
