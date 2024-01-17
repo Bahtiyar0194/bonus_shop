@@ -1,13 +1,13 @@
 const stylesConfig = {
     fontSize: {
-        text_xs: 12,
-        text_sm: 16,
-        text_base: 18,
-        text_lg: 20,
-        text_xl: 24,
-        text_2xl: 30,
-        text_3xl: 36,
-        text_4xl: 48
+        text_xs: 10,
+        text_sm: 12,
+        text_base: 14,
+        text_lg: 16,
+        text_xl: 18,
+        text_2xl: 20,
+        text_3xl: 28,
+        text_4xl: 42
     },
 
     fontFamily: {
@@ -20,22 +20,24 @@ const stylesConfig = {
     colors: {
         lightThemeColors: {
             active: '#FFFFFF',
-            inactive: '#F9FAFB',
+            inactive: '#FAFAFA',
             border: '#D9D9D9',
             text: '#141414',
             secondary: '#6B7280',
-            primary: '#3B82F6',
-            danger: '#EF4444'
+            primary: '#286DB5',
+            danger: '#EF4444',
+            warning: '#FAB61F'
         },
 
         darkThemeColors: {
-            active: '#212121',
-            inactive: '#141414',
+            active: '#22252A',
+            inactive: '#2D3035',
             border: '#424242',
             text: '#FFFFFF',
-            secondary: '#A3A3A3',
-            primary: '#3B82F6',
-            danger: '#EF4444'
+            secondary: '#D2D3D4',
+            primary: '#2288FF',
+            danger: '#EF4444',
+            warning: '#FAB61F'
         },
     },
 }

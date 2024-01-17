@@ -24,8 +24,6 @@ export default function Registration({ navigation }) {
     const [iin, setIin] = useState('');
     const [email, setEmail] = useState('');
     const [city, setCity] = useState('');
-    const [city_name, setCityName] = useState(t('user.choose_a_city'));
-
 
     const [loader, setLoader] = useState(false);
     const [error, setError] = useState([]);
@@ -50,7 +48,7 @@ export default function Registration({ navigation }) {
         form_data.append('last_name', last_name);
         form_data.append('iin', iin);
         form_data.append('email', email);
-        form_data.append('city', city);
+        form_data.append('city', city.id);
 
         let token = await AsyncStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
@@ -73,7 +71,6 @@ export default function Registration({ navigation }) {
             });
     }
 
-
     useEffect(() => {
         getCities();
     }, []);
@@ -89,7 +86,7 @@ export default function Registration({ navigation }) {
                     <CustomInput input_label={t('user.last_name')} input_value={last_name} setInputValue={setLastName} label_error={error.last_name} icon={'person-outline'}></CustomInput>
                     <CustomInput input_label={t('user.iin')} input_mode={'numeric'} input_value={iin} setInputValue={setIin} label_error={error.iin} maxLength={12} icon={'person-outline'}></CustomInput>
                     <CustomInput input_label={t('user.email')} input_value={email} setInputValue={setEmail} label_error={error.email} icon={'mail-outline'}></CustomInput>
-                    <CustomInput input_label={t('user.city')} input_type={'select'} label_error={error.city} placeholder={city_name} icon={'business-outline'} modal_title={t('user.choose_a_city')} data={cities} select_value={city} setSelectValue={setCity} setPlaceholder={setCityName} />
+                    <CustomInput input_label={t('user.city')} input_type={'group_select'} label_error={error.city} placeholder={t('user.choose_a_city')} icon={'business-outline'} modal_title={t('user.choose_a_city')} data={cities} select_value={city} setSelectValue={setCity} />
                     <CustomButton width={'100%'} onPressHandle={() => registrationSubmit()}>
                         <Ionicons name='checkbox-outline' size={24} color={'#fff'} />
                         <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[500]}>{t('auth.sign_up_finish')}</CustomText>

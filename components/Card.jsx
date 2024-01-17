@@ -3,7 +3,7 @@ import { useTheme } from '../providers/ThemeProvider';
 
 export const Card = (props) => {
 
-    const { colors } = useTheme();
+    const { colors, dark } = useTheme();
 
     return (
         <View style={{
@@ -11,8 +11,8 @@ export const Card = (props) => {
             marginBottom: props.marginBottom,
             backgroundColor: props.backgroundColor || colors.active,
             borderRadius: 10,
-            borderWidth: props.borderWidth,
-            borderColor: colors.border,
+            borderWidth: dark ? 0 : props.borderWidth,
+            borderColor: props.borderColor || colors.border,
             width: '100%'
         }}>
             {props.children}

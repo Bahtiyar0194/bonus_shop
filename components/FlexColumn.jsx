@@ -13,6 +13,7 @@ export const FlexColumn = (props) => {
             gap: props.gap || 10,
             padding: props.padding || null,
             paddingVertical: props.paddingVertical || null,
+            paddingHorizontal: props.paddingHorizontal || null,
             marginTop: props.marginTop,
             marginBottom: props.marginBottom,
             position: props.position || 'relative',

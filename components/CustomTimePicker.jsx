@@ -6,10 +6,10 @@ import stylesConfig from '../config/styles';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const CustomTimePicker = () => {
+const CustomTimePicker = (props) => {
   const { colors } = useTheme();
   const [isPickerShow, setIsPickerShow] = useState(false);
-  const [time, setTime] = useState(new Date(Date.now()));
+  const [time, setTime] = useState(new Date(new Date().setHours(props.time_type === 'work_begin' ? props.item.work_begin : props.item.work_end, 0)));
 
   const styles = StyleSheet.create({
     inputWrap: {
@@ -19,14 +19,14 @@ const CustomTimePicker = () => {
       borderRadius: 10,
       width: '100%',
       borderWidth: 1,
-      borderColor: colors.secondary
+      borderColor: props.weekend === false ? colors.secondary : colors.border
     },
+
     textInput: {
       paddingVertical: 10,
       paddingLeft: 10,
       fontFamily: stylesConfig.fontFamily[500],
-      fontSize: stylesConfig.fontSize.text_base,
-      color: colors.text
+      fontSize: stylesConfig.fontSize.text_base
     },
   });
 
@@ -36,6 +36,23 @@ const CustomTimePicker = () => {
 
   const changeTime = (event, value) => {
     setTime(value);
+
+    if (props.week_days.length > 0) {
+      let newState = props.week_days.map(obj => {
+        if (obj.week_day_id === props.item.week_day_id) {
+          if (props.time_type == 'work_begin') {
+            return { ...obj, work_begin: value.getHours() };
+          }
+          else if (props.time_type == 'work_end') {
+            return { ...obj, work_end: value.getHours() };
+          }
+        }
+        return obj;
+      });
+
+      props.setWeekDays(newState);
+    }
+
     if (Platform.OS === 'android') {
       setIsPickerShow(false);
     }
@@ -43,9 +60,9 @@ const CustomTimePicker = () => {
 
   return (
     <>
-      <Pressable style={styles.inputWrap} onPress={showPicker}>
+      <Pressable style={styles.inputWrap} onPress={() => showPicker()}>
         <View style={styles.textInput}>
-          <CustomText>{time.getHours()} : {time.getMinutes()}</CustomText>
+          <CustomText>{(time.getHours() < 10) && <>0</>}{time.getHours()} : {(time.getMinutes() < 10) && <>0</>}{time.getMinutes()}</CustomText>
         </View>
       </Pressable>
 
@@ -53,6 +70,7 @@ const CustomTimePicker = () => {
         <DateTimePicker
           value={time}
           mode={'time'}
+          minuteInterval={0}
           display={Platform.OS === 'ios' ? 'spinner' : 'default'}
           is24Hour={true}
           onChange={changeTime}

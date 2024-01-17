@@ -15,7 +15,10 @@ export default function Container(props) {
             alignItems: props.alignItems || 'baseline',
             alignContent: props.alignContent || 'flex-start',
             backgroundColor: colors.inactive,
-            gap: 10
+            gap: 10,
+            padding: props.padding,
+            paddingTop: props.paddingTop,
+            paddingVertical: props.paddingVertical
         }
     });
 

@@ -12,20 +12,36 @@ import { FlexWrap } from "../../../components/FlexWrap";
 import { FlexColumn } from "../../../components/FlexColumn";
 import Container from "../../../components/Container";
 import { CustomButton } from "../../../components/CustomButton";
+import { TabsHeader } from "../../../components/TabsHeader";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function BranchesList({ navigation }) {
     const { t } = useTranslation();
     const [loader, setLoader] = useState(false);
     const isFocused = useIsFocused();
+    const [tab, setTab] = useState(0);
 
     const [branches, setBranches] = useState([]);
+    const [applications, setApplications] = useState([]);
+
+    const tabs = [
+        {
+            name: t('misc.all'),
+            badge: null
+        },
+        {
+            name: t('misc.on_inspection'),
+            badge: applications.length
+        }
+    ];
 
     const fetchBranches = () => {
         setLoader(true);
         axios
-            .get('/partners/my_branches')
+            .get('/branches/my_branches')
             .then(({ data }) => {
                 setBranches(data.branches);
+                setApplications(data.applications);
             })
             .catch((err) => {
                 alert(t('errors.network_error'));
@@ -36,7 +52,7 @@ export default function BranchesList({ navigation }) {
 
     useEffect(() => {
         if (isFocused) {
-            //fetchBranches();
+            fetchBranches();
         }
     }, [isFocused]);
 
@@ -46,38 +62,81 @@ export default function BranchesList({ navigation }) {
             <Loader />
             :
             <DefaultLayout title={t('branches.title')} navigation={navigation}>
-                {branches.length > 0
-                    ?
-                    <ScrollView style={{ width: '100%', paddingTop: 10 }}>
-                        {/* {
-                            branches.map(item => (
-                                <TouchableOpacity key={item.branch_id} onPress={() => navigation.navigate('BranchInfo', { title: t('branches.branch_info'), branch: item })}>
-                                    <Card borderWidth={1} marginBottom={10}>
-                                        <FlexColumn gap={8}>
-                                            <CustomText fontFamily={stylesConfig.fontFamily[700]}>{item.branch_address}</CustomText>
-                                            <FlexWrap width={'100%'} gap={2}>
-                                                <CustomText size={stylesConfig.fontSize.text_sm}>{t('partners.partner_org_name') + ': '}</CustomText>
-                                                <CustomText size={stylesConfig.fontSize.text_sm} fontFamily={stylesConfig.fontFamily[500]}>{item.partner_org_name}</CustomText>
-                                            </FlexWrap>
+                <TabsHeader tabs={tabs} tab={tab} setTab={setTab} />
 
-                                            <FlexWrap width={'100%'} gap={2}>
-                                                <CustomText size={stylesConfig.fontSize.text_sm}>{t('partners.bin') + ': '}</CustomText>
-                                                <CustomText size={stylesConfig.fontSize.text_sm} fontFamily={stylesConfig.fontFamily[500]}>{item.partner_bin}</CustomText>
-                                            </FlexWrap>
-                                        </FlexColumn>
-                                    </Card>
-                                </TouchableOpacity>
-                            ))
-                        } */}
-                    </ScrollView>
-                    :
-                    <Container alignItems={'center'} justifyContent={'center'}>
-                        <CustomText fontFamily={stylesConfig.fontFamily[700]} textAlign={'center'}>{t('branches.no_branches')}</CustomText>
-                        <CustomButton onPressHandle={() => navigation.navigate('AddBranch')}>
-                            <CustomText>{t('branches.add_a_branch')}</CustomText>
-                        </CustomButton>
-                    </Container>
+                {tab === 0 &&
+                    <>
+                        {branches.length > 0
+                            ?
+                            <ScrollView style={{ width: '100%', paddingTop: 10 }}>
+                                {
+                                    branches.map(item => (
+                                        <TouchableOpacity key={item.branch_id} onPress={() => navigation.navigate('BranchInfo', { title: t('branches.branch_info'), branch: item })}>
+                                            <Card borderWidth={1} marginBottom={10}>
+                                                <FlexColumn gap={8}>
+                                                    <CustomText fontFamily={stylesConfig.fontFamily[700]}>{item.street} {item.house}</CustomText>
+                                                    <FlexWrap width={'100%'} gap={2}>
+                                                        <CustomText size={stylesConfig.fontSize.text_sm}>{t('user.city') + ': '}</CustomText>
+                                                        <CustomText size={stylesConfig.fontSize.text_sm} fontFamily={stylesConfig.fontFamily[500]}>{item.city_name}</CustomText>
+                                                    </FlexWrap>
+                                                </FlexColumn>
+                                            </Card>
+                                        </TouchableOpacity>
+                                    ))
+                                }
+
+                                <CustomButton onPressHandle={() => navigation.navigate('AddBranch')}>
+                                <Ionicons name='add' size={24} color={'#fff'} />
+                                    <CustomText color={'#fff'}>{t('branches.add_a_branch')}</CustomText>
+                                </CustomButton>
+                            </ScrollView>
+                            :
+                            <Container alignItems={'center'} justifyContent={'center'}>
+                                <CustomText fontFamily={stylesConfig.fontFamily[700]} textAlign={'center'}>{t('branches.no_branches')}</CustomText>
+                                <CustomButton onPressHandle={() => navigation.navigate('AddBranch')}>
+                                <Ionicons name='add' size={24} color={'#fff'} />
+                                    <CustomText color={'#fff'}>{t('branches.add_a_branch')}</CustomText>
+                                </CustomButton>
+                            </Container>
+                        }
+                    </>
                 }
+
+
+                {tab === 1 &&
+                    <>
+                        {applications.length > 0
+                            ?
+                            <ScrollView style={{ width: '100%', paddingTop: 10 }}>
+                                {
+                                    applications.map(item => (
+                                        <TouchableOpacity key={item.branch_id} onPress={() => navigation.navigate('BranchInfo', { title: t('branches.branch_info'), branch: item })}>
+                                            <Card borderWidth={1} marginBottom={10}>
+                                                <FlexColumn gap={8}>
+                                                    <CustomText fontFamily={stylesConfig.fontFamily[700]}>{item.partner_name}</CustomText>
+                                                    <FlexWrap width={'100%'} gap={2}>
+                                                        <CustomText size={stylesConfig.fontSize.text_sm}>{t('user.address') + ': '}</CustomText>
+                                                        <CustomText size={stylesConfig.fontSize.text_sm} fontFamily={stylesConfig.fontFamily[500]}>{item.street} {item.house}</CustomText>
+                                                    </FlexWrap>
+
+                                                    <FlexWrap width={'100%'} gap={2}>
+                                                        <CustomText size={stylesConfig.fontSize.text_sm}>{t('user.city') + ': '}</CustomText>
+                                                        <CustomText size={stylesConfig.fontSize.text_sm} fontFamily={stylesConfig.fontFamily[500]}>{item.city_name}</CustomText>
+                                                    </FlexWrap>
+                                                </FlexColumn>
+                                            </Card>
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                            </ScrollView>
+                            :
+                            <Container alignItems={'center'} justifyContent={'center'}>
+                                <CustomText fontFamily={stylesConfig.fontFamily[700]} textAlign={'center'}>{t('branches.no_inspect_branches')}</CustomText>
+                            </Container>
+                        }
+                    </>
+                }
+
             </DefaultLayout>
     );
 }

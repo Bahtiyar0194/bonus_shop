@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
 import { Loader } from '../../components/Loader';
-import DefaultLayout from "../../layouts/DefaultLayout";
 import { CustomInput } from '../../components/CustomInput';
 import { CustomButton } from '../../components/CustomButton';
 import axios from 'axios';
@@ -9,6 +8,7 @@ import stylesConfig from '../../config/styles';
 import CustomText from '../../components/CustomText';
 import { FlexColumn } from "../../components/FlexColumn";
 import { useTheme } from "../../providers/ThemeProvider";
+import CenterLayout from "../../layouts/CenterLayout";
 
 export default function Activation({ navigation, route }) {
     const { colors } = useTheme();
@@ -51,14 +51,14 @@ export default function Activation({ navigation, route }) {
             ?
             <Loader />
             :
-            <DefaultLayout title={route.params.status == 'activation' ? t('auth.activation') : t('auth.password_recovery')} navigation={navigation}>
+            <CenterLayout title={route.params.status == 'activation' ? t('auth.activation') : t('auth.password_recovery')} navigation={navigation}>
                 <FlexColumn gap={20}>
                     <CustomText flex={1} textAlign={'center'} fontFamily={stylesConfig.fontFamily[500]} color={colors.primary}>{t('auth.enter_the_sms_code', {phone: route.params.phone})}</CustomText>
-                    <CustomInput input_label={t('auth.sms_code')} input_mode={'numeric'} input_value={sms} setInputValue={setSMS} label_error={error.sms} placeholder={'_ _ _ _'} icon={'chatbox-ellipses-outline'}></CustomInput>
+                    <CustomInput input_label={t('auth.sms_code')} input_mode={'numeric'} input_value={sms} setInputValue={setSMS} label_error={error.sms} placeholder={'_ _ _ _ _ _'} maxLength={6} icon={'chatbox-ellipses-outline'}></CustomInput>
                     <CustomButton width={'100%'} onPressHandle={() => activationSubmit()}>
                         <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[500]}>{t('misc.continue')}</CustomText>
                     </CustomButton>
                 </FlexColumn>
-            </DefaultLayout>
+            </CenterLayout>
     );
 }

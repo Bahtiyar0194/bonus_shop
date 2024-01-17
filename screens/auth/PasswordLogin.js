@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import { Loader } from '../../components/Loader';
-import DefaultLayout from "../../layouts/DefaultLayout";
 import { CustomInput } from '../../components/CustomInput';
 import { CustomButton } from '../../components/CustomButton';
 import axios from 'axios';
@@ -13,6 +12,7 @@ import { useTheme } from "../../providers/ThemeProvider";
 import { FlexWrap } from "../../components/FlexWrap";
 import { PressableLink } from "../../components/PressableLink";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import CenterLayout from "../../layouts/CenterLayout";
 
 export default function PasswordLogin({ navigation, route }) {
     const { t } = useTranslation();
@@ -81,7 +81,7 @@ export default function PasswordLogin({ navigation, route }) {
             ?
             <Loader />
             :
-            <DefaultLayout title={t('auth.password_login_title')} navigation={navigation}>
+            <CenterLayout title={t('auth.password_login_title')} navigation={navigation}>
                 <FlexColumn gap={20}>
                     {error.auth_failed && <CustomText color={colors.danger} size={stylesConfig.fontSize.text_base}>{error.auth_failed}</CustomText>}
                     <CustomInput input_label={t('auth.password')} input_type={'password'} input_value={password} setInputValue={setPassword} label_error={error.password} icon={'lock-closed-outline'}></CustomInput>
@@ -94,6 +94,6 @@ export default function PasswordLogin({ navigation, route }) {
                         <PressableLink text={t('auth.password_reset')} onPressHandle={() => resetPassword()} />
                     </FlexWrap>
                 </FlexColumn>
-            </DefaultLayout>
+            </CenterLayout>
     );
 }

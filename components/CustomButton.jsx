@@ -8,6 +8,7 @@ export const CustomButton = (props) => {
         <TouchableOpacity
             activeOpacity={.4}
             style={{
+                flex: props.flex,
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -16,8 +17,9 @@ export const CustomButton = (props) => {
                 borderWidth: props.borderWidth || null,
                 borderColor: props.borderColor || null,
                 borderRadius: props.borderRadius || 10,
-                paddingVertical: 10,
-                paddingHorizontal: 15,
+                paddingVertical: 8,
+                paddingHorizontal: 10,
+                marginTop: props.marginTop,
                 height: props.height,
                 width: props.width,
                 position: props.position || 'relative',

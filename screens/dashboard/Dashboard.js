@@ -18,6 +18,7 @@ import { FlexColumn } from "../../components/FlexColumn";
 import { ListItem } from "../../components/ListItem";
 import { useIsFocused } from "@react-navigation/native";
 import { RoleProvider } from "../../providers/RoleProvider";
+import { Pressable } from "react-native";
 
 export default function Dashboard({ navigation }) {
     const [loader, setLoader] = useState(false);
@@ -95,6 +96,7 @@ export default function Dashboard({ navigation }) {
 
     async function removeToken() {
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('user_id');
     }
 
     useEffect(() => {
@@ -114,11 +116,13 @@ export default function Dashboard({ navigation }) {
                 <ScrollView>
                     <FlexColumn marginTop={10} gap={20}>
                         <Card backgroundColor={colors.primary} borderWidth={null}>
-                            <CustomText color={'#fff'} size={stylesConfig.fontSize.text_xl} fontFamily={stylesConfig.fontFamily[700]}>{user.last_name + ' ' + user.first_name}</CustomText>
-                            <FlexWrap gap={1}>
-                                <CustomText color={'#fff'}>{t('bonuses') + ': '}</CustomText>
-                                <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[700]}>{user.bonus.toFixed(2)}</CustomText>
-                            </FlexWrap>
+                            <Pressable onPress={() => navigation.navigate('Bonuses', { user: user })}>
+                                <CustomText color={'#fff'} size={stylesConfig.fontSize.text_xl} fontFamily={stylesConfig.fontFamily[700]}>{user.last_name + ' ' + user.first_name}</CustomText>
+                                <FlexWrap gap={1}>
+                                    <CustomText color={'#fff'}>{t('bonuses.title') + ': '}</CustomText>
+                                    <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[700]}>{user.bonuses.all_active_bonuses.toFixed(2)}</CustomText>
+                                </FlexWrap>
+                            </Pressable>
                         </Card>
 
                         {user.roles.length > 1 &&
@@ -131,7 +135,7 @@ export default function Dashboard({ navigation }) {
                                             key={role.role_type_id}
                                             borderWidth={1}
                                             borderColor={user.current_role_id === role.role_type_id ? colors.primary : colors.border}
-                                            onPressHandle={() => changeUserMode(role.role_type_id)}>
+                                            onPressHandle={() => user.current_role_id !== role.role_type_id ? changeUserMode(role.role_type_id) : null}>
                                             <Ionicons name='person-outline' size={18} color={colors.text} />
                                             <CustomText>
                                                 {role.user_role_type_name}
@@ -164,8 +168,27 @@ export default function Dashboard({ navigation }) {
                                 <ListItem chevron={true} onPressHandler={() => navigation.navigate('BranchesList')}>
                                     <CustomText>{t('branches.title')}</CustomText>
                                 </ListItem>
-                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('ManagersList')}>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('StaffList')}>
                                     <CustomText>{t('staff.title')}</CustomText>
+                                </ListItem>
+                            </View>
+
+                            <View style={{ width: '100%' }}>
+                                <CustomText fontFamily={stylesConfig.fontFamily[700]}>{t('categories.services_and_products')}</CustomText>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('MyServicesList')}>
+                                    <CustomText>{t('categories.services')}</CustomText>
+                                </ListItem>
+                            </View>
+                        </RoleProvider>
+
+                        <RoleProvider roles={[4, 5]}>
+                            <View style={{ width: '100%' }}>
+                                <CustomText fontFamily={stylesConfig.fontFamily[700]}>{t('operations_title')}</CustomText>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('CreateOperation')}>
+                                    <CustomText>{t('operations.new_operation')}</CustomText>
+                                </ListItem>
+                                <ListItem chevron={true} onPressHandler={() => navigation.navigate('OperationsList')}>
+                                    <CustomText>{t('operations.title')}</CustomText>
                                 </ListItem>
                             </View>
                         </RoleProvider>

@@ -1,33 +1,42 @@
 {
-  "expo": {
-    "name": "bonus-app",
-    "slug": "bonus-app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-localization"
-    ]
-  }
+    "expo": {
+        "name": "BonusShop",
+        "slug": "bonus-app",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#3B82F6"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "kz.bonusshop",
+            "config": {
+                "googleMapsApiKey": "AIzaSyBxS4-xtgj4dSL1R_I9EbRq796-fU5y8DQ"
+            }
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#3B82F6"
+            },
+            "package": "kz.bonusshop",
+            "config": {
+              "googleMaps": { "apiKey": "AIzaSyBxS4-xtgj4dSL1R_I9EbRq796-fU5y8DQ" }
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": ["expo-localization"],
+        "extra": {
+            "eas": {
+                "projectId": "dd3f31a0-4bc5-41ba-8324-21923f202211"
+            }
+        }
+    }
 }

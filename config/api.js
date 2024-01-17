@@ -1,2 +1,3 @@
-const API_URL = 'http://192.168.1.111:8000/api/v1';
+import SITE_URL from "./site";
+const API_URL = SITE_URL + '/api/v1';
 export default API_URL;

@@ -14,7 +14,7 @@ export default function PartnerInfo({ navigation, route }) {
         <DefaultLayout title={route.params.title} navigation={navigation}>
             <ScrollView style={{ width: '100%', paddingTop: 10 }}>
                 <FlexColumn marginBottom={20} gap={15}>
-                    <CustomText size={stylesConfig.fontSize.text_xl} fontFamily={stylesConfig.fontFamily[700]}>{partner.partner_name}</CustomText>
+                    <CustomText size={stylesConfig.fontSize.text_xl} fontFamily={stylesConfig.fontFamily[700]}>{partner.name}</CustomText>
 
                     <FlexWrap width={'100%'} gap={2}>
                         <CustomText size={stylesConfig.fontSize.text_sm}>{t('partners.partner_org_name') + ': '}</CustomText>

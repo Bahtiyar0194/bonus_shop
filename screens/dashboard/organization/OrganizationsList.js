@@ -51,10 +51,10 @@ export default function OrganizationsList({ navigation }) {
                     <ScrollView style={{ width: '100%', paddingTop: 10 }}>
                         {
                             organizations.map(item => (
-                                <TouchableOpacity key={item.partner_id} onPress={() => navigation.navigate('PartnerInfo', { title: t('organizations.organization_info'), partner: item })}>
+                                <TouchableOpacity key={item.id} onPress={() => navigation.navigate('PartnerInfo', { title: t('organizations.organization_info'), partner: item })}>
                                     <Card borderWidth={1} marginBottom={10}>
                                         <FlexColumn gap={8}>
-                                            <CustomText fontFamily={stylesConfig.fontFamily[700]}>{item.partner_name}</CustomText>
+                                            <CustomText fontFamily={stylesConfig.fontFamily[700]}>{item.name}</CustomText>
                                             <FlexWrap width={'100%'} gap={2}>
                                                 <CustomText size={stylesConfig.fontSize.text_sm}>{t('partners.partner_org_name') + ': '}</CustomText>
                                                 <CustomText size={stylesConfig.fontSize.text_sm} fontFamily={stylesConfig.fontFamily[500]}>{item.partner_org_name}</CustomText>

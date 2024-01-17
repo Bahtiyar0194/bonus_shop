@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import DefaultLayout from "../../../layouts/DefaultLayout";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { Loader } from "../../../components/Loader";
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
@@ -10,13 +10,11 @@ import CustomText from "../../../components/CustomText";
 import stylesConfig from "../../../config/styles";
 import { FlexWrap } from "../../../components/FlexWrap";
 import { FlexColumn } from "../../../components/FlexColumn";
-import { CustomButton } from "../../../components/CustomButton";
-import { useTheme } from "../../../providers/ThemeProvider";
 import Container from "../../../components/Container";
+import { TabsHeader } from "../../../components/TabsHeader";
 
 export default function PartnersList({ navigation }) {
     const { t } = useTranslation();
-    const { colors } = useTheme();
     const [loader, setLoader] = useState(false);
     const [tab, setTab] = useState(0);
     const isFocused = useIsFocused();
@@ -63,23 +61,8 @@ export default function PartnersList({ navigation }) {
             <Loader />
             :
             <DefaultLayout title={t('partners.title')} navigation={navigation}>
-                <FlexColumn marginTop={10}>
-                    <FlexWrap>
-                        {tabs.map((item, index) => (
-                            <CustomButton
-                                color={colors.active}
-                                key={index}
-                                borderWidth={1}
-                                borderColor={index == tab ? colors.primary : colors.border}
-                                badge={item.badge}
-                                onPressHandle={() => setTab(index)}>
-                                <CustomText>
-                                    {item.name}
-                                </CustomText>
-                            </CustomButton>
-                        ))}
-                    </FlexWrap>
-                </FlexColumn>
+                <TabsHeader tabs={tabs} tab={tab} setTab={setTab} />
+
                 {tab === 0 &&
                     <>
                         {partners.length > 0

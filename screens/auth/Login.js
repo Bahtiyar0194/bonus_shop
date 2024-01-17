@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useState } from 'react';
 import { Loader } from '../../components/Loader';
-import DefaultLayout from "../../layouts/DefaultLayout";
+import CenterLayout from "../../layouts/CenterLayout";
 import { CustomInput } from '../../components/CustomInput';
 import { CustomButton } from '../../components/CustomButton';
 import axios from 'axios';
@@ -57,7 +57,7 @@ export default function Login({ navigation }) {
             ?
             <Loader />
             :
-            <DefaultLayout title={t('auth.sign_in_title')} navigation={navigation}>
+            <CenterLayout title={t('auth.sign_in_title')} navigation={navigation}>
                 <FlexColumn gap={20}>
                     {error.auth_failed && <CustomText color={colors.danger} size={stylesConfig.fontSize.text_base}>{error.auth_failed}</CustomText>}
                     <CustomInput input_label={t('auth.phone')} input_type={'phone'} input_mode={'numeric'} placeholder={'+7 (___) ___-____'} input_value={phone} setInputValue={setPhone} label_error={error.phone} icon={'call-outline'}></CustomInput>
@@ -65,6 +65,6 @@ export default function Login({ navigation }) {
                         <CustomText color={'#fff'} fontFamily={stylesConfig.fontFamily[500]}>{t('misc.continue')}</CustomText>
                     </CustomButton>
                 </FlexColumn>
-            </DefaultLayout>
+            </CenterLayout>
     );
 }

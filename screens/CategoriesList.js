@@ -1,22 +1,29 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import DefaultLayout from "../layouts/DefaultLayout";
-import { StyleSheet, ScrollView } from "react-native";
-import { useTheme } from "../providers/ThemeProvider";
+import { ScrollView } from "react-native";
 import { Loader } from "../components/Loader";
 import axios from "axios";
 import { ListItem } from "../components/ListItem";
+import CustomText from "../components/CustomText";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from "../providers/ThemeProvider";
+import { FlexWrap } from "../components/FlexWrap";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function CategoriesList({ navigation, route }) {
     const { t } = useTranslation();
-    const { colors } = useTheme();
     const [loader, setLoader] = useState(false);
     const [categories, setCategories] = useState([]);
+    const { colors } = useTheme();
 
-    const fetchCategories = (category_id) => {
+    const fetchCategories = async (category_id) => {
         setLoader(true);
+        let city_id = await AsyncStorage.getItem('current_location_id');
+
         axios
-            .get('/categories/get/' + category_id)
+            .get('/categories/get/' + category_id, { params: { city_id: city_id } })
             .then(({ data }) => {
                 setCategories(data.categories);
             })
@@ -24,16 +31,8 @@ export default function CategoriesList({ navigation, route }) {
                 alert(t('errors.network_error'));
             }).finally(() => {
                 setLoader(false);
-            })
+            });
     }
-
-    const styles = StyleSheet.create({
-        sectionItem: {
-            paddingVertical: 20,
-            borderBottomWidth: 1,
-            borderColor: colors.border
-        }
-    });
 
     useEffect(() => {
         fetchCategories(route.params.category_id);
@@ -47,7 +46,12 @@ export default function CategoriesList({ navigation, route }) {
             <DefaultLayout title={route.params.title} navigation={navigation}>
                 <ScrollView style={{ width: '100%' }}>
                     {categories.map(item => (
-                        <ListItem key={item.category_id} text={item.category_name} onPressHandler={() => item.childs.length > 0 ? navigation.navigate('CategoriesList', { title: item.category_name, category_id: item.category_id }) : navigation.navigate('ServicesList', { title: item.category_name, category_id: item.category_id })} />
+                        <ListItem key={item.id} badge={item.services} onPressHandler={() => item.childs.length > 0 ? navigation.navigate('CategoriesList', { title: item.name, category_id: item.id }) : navigation.navigate('SearchMap', { search_query: item.name })}>
+                            <FlexWrap>
+                                <Ionicons name={item.image + '-outline'} size={24} color={colors.primary} />
+                                <CustomText>{item.name}</CustomText>
+                            </FlexWrap>
+                        </ListItem>
                     ))}
                 </ScrollView>
             </DefaultLayout>

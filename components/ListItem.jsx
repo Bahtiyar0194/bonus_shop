@@ -1,6 +1,5 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { FlexWrap } from "./FlexWrap";
-import CustomText from "./CustomText";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from "../providers/ThemeProvider";
 import { Badge } from "./Badge";
@@ -10,15 +9,15 @@ export const ListItem = (props) => {
 
     const styles = StyleSheet.create({
         listItem: {
-            paddingTop: props.paddingTop || 15,
-            paddingBottom: props.paddingBottom || 15,
-            borderBottomWidth: 1,
+            paddingTop: props.first ? null : (props.paddingTop || 15),
+            paddingBottom: props.last ? null : (props.paddingBottom || 15),
+            borderBottomWidth: props.last ? null : 1,
             borderColor: colors.border
         }
     });
 
     return (
-        <TouchableOpacity activeOpacity={.4} style={styles.listItem} onPress={props.onPressHandler}>
+        <TouchableOpacity activeOpacity={props.activeOpacity || .4} style={styles.listItem} onPress={props.onPressHandler}>
             <FlexWrap justifyContent={'space-between'}>
                 {props.children}
                 <FlexWrap>

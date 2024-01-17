@@ -40,7 +40,7 @@ export default function ServicesList({ navigation, route }) {
             ?
             <Loader />
             :
-            <DefaultLayout title={''} navigation={navigation}>
+            <DefaultLayout title={route.params.title} navigation={navigation}>
                 <ScrollView style={{ width: '100%', paddingVertical: 15 }}>
                     {services.map(item => (
                         <TouchableOpacity key={item.service_id} activeOpacity={.8} onPress={() => alert(item.service_id)}>
